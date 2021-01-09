@@ -186,48 +186,43 @@ class _DialogBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TweenAnimationBuilder(
-        tween: Tween<double>(begin: 0, end: 1),
-        duration: animationDuration,
-        builder: (context, val, child) {
-          return Material(
-            type: MaterialType.canvas,
-            color: color.withOpacity(val * _colorOpacity),
-            child: WillPopScope(
-              onWillPop: () async {
-                if (dismissable ?? true) {
-                  if (onDismiss != null) onDismiss();
-                  Navigator.pop(context);
-                }
-                return;
-              },
-              child: Stack(
-                clipBehavior: Clip.antiAlias,
-                alignment: Alignment.center,
-                children: <Widget>[
-                  GestureDetector(
-                      onTap: dismissable ?? true
-                          ? () {
-                              if (onDismiss != null) {
-                                onDismiss();
-                              }
-                              Navigator.pop(context);
-                            }
-                          : () {},
-                      child: BackdropFilter(
-                        filter: ImageFilter.blur(
-                          sigmaX: val * blur,
-                          sigmaY: val * blur,
-                        ),
-                        child: Container(
-                          color: Colors.transparent,
-                        ),
-                      )),
-                  dialog
-                ],
-              ),
-            ),
-          );
-        });
+    return Material(
+      type: MaterialType.canvas,
+      color: color.withOpacity(_colorOpacity),
+      child: WillPopScope(
+        onWillPop: () async {
+          if (dismissable ?? true) {
+            if (onDismiss != null) onDismiss();
+            Navigator.pop(context);
+          }
+          return;
+        },
+        child: Stack(
+          clipBehavior: Clip.antiAlias,
+          alignment: Alignment.center,
+          children: <Widget>[
+            GestureDetector(
+                onTap: dismissable ?? true
+                    ? () {
+                        if (onDismiss != null) {
+                          onDismiss();
+                        }
+                        Navigator.pop(context);
+                      }
+                    : () {},
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(
+                    sigmaX: blur,
+                    sigmaY: blur,
+                  ),
+                  child: Container(
+                    color: Colors.transparent,
+                  ),
+                )),
+            dialog
+          ],
+        ),
+      ),
+    );
   }
 }
