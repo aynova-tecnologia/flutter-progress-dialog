@@ -202,23 +202,24 @@ class _DialogBackground extends StatelessWidget {
           alignment: Alignment.center,
           children: <Widget>[
             GestureDetector(
-                onTap: dismissable ?? true
-                    ? () {
-                        if (onDismiss != null) {
-                          onDismiss();
-                        }
-                        Navigator.pop(context);
+              onTap: dismissable ?? true
+                  ? () {
+                      if (onDismiss != null) {
+                        onDismiss();
                       }
-                    : () {},
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(
-                    sigmaX: blur,
-                    sigmaY: blur,
-                  ),
-                  child: Container(
-                    color: Colors.transparent,
-                  ),
-                )),
+                      Navigator.pop(context);
+                    }
+                  : () {},
+              // child: BackdropFilter(
+              //   filter: ImageFilter.blur(
+              //     sigmaX: blur,
+              //     sigmaY: blur,
+              //   ),
+              //   child: Container(
+              //     color: Colors.transparent,
+              //   ),
+              // )
+            ),
             dialog
           ],
         ),
