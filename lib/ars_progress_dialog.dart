@@ -8,16 +8,13 @@ class ArsProgressDialog {
   final BuildContext context;
 
   /// Main widget of dialog,
-  final Widget loadingWidget;
+  final Widget? loadingWidget;
 
   /// Whether dialog can dismiss by touching outside or not
   final bool dismissable;
 
   /// This function will trigger when user dismisses dialog
-  final Function onDismiss;
-
-  /// Amount of background blur
-  final double blur;
+  final Function? onDismiss;
 
   /// Dialog's background color
   final Color backgroundColor;
@@ -32,7 +29,7 @@ class ArsProgressDialog {
   bool _isShowing = false;
 
   /// Dialog widget instance
-  _ArsProgressDialogWidget _progressDialogWidget;
+  _ArsProgressDialogWidget? _progressDialogWidget;
 
   /// Getter for _isShowing
   bool get isShowing => _isShowing;
@@ -40,7 +37,6 @@ class ArsProgressDialog {
   ArsProgressDialog(
     this.context, {
     this.backgroundColor: const Color(0x99000000),
-    this.blur: 0,
     this.dismissable: true,
     this.onDismiss,
     this.loadingWidget,
@@ -53,7 +49,6 @@ class ArsProgressDialog {
   /// Initialize dialog's instance
   void _initProgress() {
     _progressDialogWidget = _ArsProgressDialogWidget(
-      blur: blur,
       dismissable: dismissable,
       backgroundColor: backgroundColor,
       onDismiss: onDismiss,
@@ -70,8 +65,8 @@ class ArsProgressDialog {
       await showDialog(
         useSafeArea: useSafeArea,
         context: context,
-        barrierDismissible: dismissable ?? true,
-        builder: (context) => _progressDialogWidget,
+        barrierDismissible: dismissable,
+        builder: (context) => _progressDialogWidget!,
         barrierColor: Colors.transparent,
       );
       _isShowing = false;
@@ -90,19 +85,16 @@ class ArsProgressDialog {
 // ignore: must_be_immutable
 class _ArsProgressDialogWidget extends StatelessWidget {
   /// Main widget of dialog,
-  Widget loadingWidget;
+  Widget? loadingWidget;
 
   /// This function will trigger when user dismisses dialog
-  final Function onDismiss;
-
-  /// Amount of background blur
-  final double blur;
+  final Function? onDismiss;
 
   /// Dialog's background color
-  final Color backgroundColor;
+  final Color? backgroundColor;
 
   /// Whether dialog can dismiss by touching outside or not
-  final bool dismissable;
+  final bool? dismissable;
 
   /// Duration of blur and background color animation
   final Duration animationDuration;
@@ -112,7 +104,6 @@ class _ArsProgressDialogWidget extends StatelessWidget {
     this.onDismiss,
     this.backgroundColor,
     this.loadingWidget,
-    this.blur,
     this.animationDuration: const Duration(milliseconds: 300),
   }) {
     loadingWidget = loadingWidget ??
@@ -134,7 +125,6 @@ class _ArsProgressDialogWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _DialogBackground(
-      blur: blur,
       dismissable: dismissable ?? true,
       onDismiss: onDismiss,
       color: backgroundColor,
@@ -153,49 +143,44 @@ class _ArsProgressDialogWidget extends StatelessWidget {
 // ignore: must_be_immutable
 class _DialogBackground extends StatelessWidget {
   /// Widget of dialog, you can use NDialog, Dialog, AlertDialog or Custom your own Dialog
-  final Widget dialog;
+  final Widget? dialog;
 
   /// Because blur dialog cover the barrier, you have to declare here
-  final bool dismissable;
+  final bool? dismissable;
 
   /// Action before dialog dismissed
-  final Function onDismiss;
-
-  /// Creates an background filter that applies a Gaussian blur.
-  /// Default = 0
-  final double blur;
+  final Function? onDismiss;
 
   /// Background color
-  final Color color;
+  final Color? color;
 
   /// Animation Duration
   final Duration animationDuration;
 
   /// Color Opacity
-  double _colorOpacity;
+  late double _colorOpacity;
 
   _DialogBackground(
       {this.dialog,
       this.dismissable,
-      this.blur,
       this.onDismiss,
       this.animationDuration: const Duration(milliseconds: 300),
       this.color}) {
-    _colorOpacity = color.opacity;
+    _colorOpacity = color!.opacity;
   }
 
   @override
   Widget build(BuildContext context) {
     return Material(
       type: MaterialType.canvas,
-      color: color.withOpacity(_colorOpacity),
+      color: color!.withOpacity(_colorOpacity),
       child: WillPopScope(
         onWillPop: () async {
           if (dismissable ?? true) {
-            if (onDismiss != null) onDismiss();
+            if (onDismiss != null) onDismiss!();
             Navigator.pop(context);
           }
-          return;
+          return false;
         },
         child: Stack(
           clipBehavior: Clip.antiAlias,
@@ -205,22 +190,13 @@ class _DialogBackground extends StatelessWidget {
               onTap: dismissable ?? true
                   ? () {
                       if (onDismiss != null) {
-                        onDismiss();
+                        onDismiss!();
                       }
                       Navigator.pop(context);
                     }
                   : () {},
-              // child: BackdropFilter(
-              //   filter: ImageFilter.blur(
-              //     sigmaX: blur,
-              //     sigmaY: blur,
-              //   ),
-              //   child: Container(
-              //     color: Colors.transparent,
-              //   ),
-              // )
             ),
-            dialog
+            dialog!
           ],
         ),
       ),
