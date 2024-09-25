@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
 /// Ars Progress Dialog
@@ -36,12 +34,12 @@ class ArsProgressDialog {
 
   ArsProgressDialog(
     this.context, {
-    this.backgroundColor: const Color(0x99000000),
-    this.dismissable: true,
+    this.backgroundColor = const Color(0x99000000),
+    this.dismissable = true,
     this.onDismiss,
     this.loadingWidget,
-    this.useSafeArea: false,
-    this.animationDuration: const Duration(milliseconds: 300),
+    this.useSafeArea = false,
+    this.animationDuration = const Duration(milliseconds: 300),
   }) {
     _initProgress();
   }
@@ -104,7 +102,7 @@ class _ArsProgressDialogWidget extends StatelessWidget {
     this.onDismiss,
     this.backgroundColor,
     this.loadingWidget,
-    this.animationDuration: const Duration(milliseconds: 300),
+    this.animationDuration = const Duration(milliseconds: 300),
   }) {
     loadingWidget = loadingWidget ??
         Container(
@@ -131,7 +129,10 @@ class _ArsProgressDialogWidget extends StatelessWidget {
       animationDuration: animationDuration,
       dialog: Padding(
         padding: MediaQuery.of(context).viewInsets +
-            const EdgeInsets.symmetric(horizontal: 20.0, vertical: 24.0),
+            const EdgeInsets.symmetric(
+              horizontal: 20.0,
+              vertical: 24.0,
+            ),
         child: Center(
           child: loadingWidget,
         ),
@@ -164,7 +165,7 @@ class _DialogBackground extends StatelessWidget {
       {this.dialog,
       this.dismissable,
       this.onDismiss,
-      this.animationDuration: const Duration(milliseconds: 300),
+      this.animationDuration = const Duration(milliseconds: 300),
       this.color}) {
     _colorOpacity = color!.opacity;
   }

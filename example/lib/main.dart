@@ -24,42 +24,49 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  ArsProgressDialog _progressDialog;
+  late ArsProgressDialog _progressDialog;
 
   @override
   Widget build(BuildContext context) {
     _progressDialog = ArsProgressDialog(context,
-        blur: 2,
+        // blur: 2,
         backgroundColor: Color(0x33000000),
         animationDuration: Duration(milliseconds: 500));
 
-    ArsProgressDialog customProgressDialog = ArsProgressDialog(context,
-        blur: 2,
-        backgroundColor: Color(0x33000000),
-        loadingWidget: Container(
-          width: 150,
-          height: 150,
-          color: Colors.red,
-          child: CircularProgressIndicator(),
-        ));
+    ArsProgressDialog customProgressDialog = ArsProgressDialog(
+      context,
+      // blur: 2,
+      backgroundColor: Color(0x33000000),
+      loadingWidget: Container(
+        width: 150,
+        height: 150,
+        color: Colors.red,
+        child: CircularProgressIndicator(),
+      ),
+    );
 
     return Scaffold(
         body: Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
+        children: [
           Container(
             height: 200,
-            child: Text(
+            child: const Text(
               'Example of progress dialog',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 22,
+              ),
             ),
           ),
           MaterialButton(
             onPressed: () {
               _progressDialog.show();
             },
-            child: Text("show dialog"),
+            child: const Text(
+              "show dialog",
+            ),
           ),
         ],
       ),
